@@ -1,0 +1,165 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-critical: var(--critical);
+  --color-critical-foreground: var(--critical-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+}
+
+:root {
+  --radius: 0.5rem;
+
+  /* Operations-room dark palette */
+  --background: oklch(0.18 0.012 250);
+  --foreground: oklch(0.96 0.005 240);
+  --surface: oklch(0.22 0.014 250);
+  --surface-2: oklch(0.26 0.016 250);
+
+  --card: oklch(0.22 0.014 250);
+  --card-foreground: oklch(0.96 0.005 240);
+  --popover: oklch(0.24 0.014 250);
+  --popover-foreground: oklch(0.96 0.005 240);
+
+  --primary: oklch(0.78 0.16 75); /* amber alert */
+  --primary-foreground: oklch(0.18 0.012 250);
+
+  --secondary: oklch(0.3 0.016 250);
+  --secondary-foreground: oklch(0.96 0.005 240);
+
+  --muted: oklch(0.28 0.014 250);
+  --muted-foreground: oklch(0.7 0.012 250);
+
+  --accent: oklch(0.32 0.02 250);
+  --accent-foreground: oklch(0.96 0.005 240);
+
+  --destructive: oklch(0.62 0.24 25);
+  --destructive-foreground: oklch(0.98 0.005 240);
+
+  --success: oklch(0.72 0.17 155);
+  --success-foreground: oklch(0.16 0.02 160);
+
+  --warning: oklch(0.8 0.16 85);
+  --warning-foreground: oklch(0.18 0.012 250);
+
+  --critical: oklch(0.65 0.26 22);
+  --critical-foreground: oklch(0.98 0.005 240);
+
+  --border: oklch(0.32 0.015 250);
+  --input: oklch(0.3 0.015 250);
+  --ring: oklch(0.78 0.16 75);
+
+  --gradient-critical: linear-gradient(135deg, oklch(0.65 0.26 22), oklch(0.55 0.22 15));
+  --gradient-surface: linear-gradient(180deg, var(--surface), var(--surface-2));
+  --shadow-critical:
+    0 0 0 1px color-mix(in oklab, var(--critical) 40%, transparent),
+    0 8px 30px -8px color-mix(in oklab, var(--critical) 50%, transparent);
+  --shadow-panel:
+    0 1px 0 0 color-mix(in oklab, white 4%, transparent) inset, 0 12px 30px -18px oklch(0 0 0 / 0.6);
+}
+
+.dark {
+  /* mirror — app is dark by default */
+  --background: oklch(0.18 0.012 250);
+  --foreground: oklch(0.96 0.005 240);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body,
+  #app {
+    height: 100%;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+@layer utilities {
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, white 4%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, white 4%, transparent) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .scanline {
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 3px,
+      color-mix(in oklab, white 3%, transparent) 3px,
+      color-mix(in oklab, white 3%, transparent) 4px
+    );
+  }
+  .pulse-critical {
+    animation: pulseCritical 1.6s ease-in-out infinite;
+  }
+  @keyframes pulseCritical {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 color-mix(in oklab, var(--critical) 60%, transparent);
+    }
+    50% {
+      box-shadow: 0 0 0 8px color-mix(in oklab, var(--critical) 0%, transparent);
+    }
+  }
+  .tick {
+    animation: tickIn 250ms ease-out both;
+  }
+  @keyframes tickIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
